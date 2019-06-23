@@ -1,0 +1,38 @@
+﻿@model NumberstoNepaliWords.Models.ConversionModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>ConversionModel</h4>
+    <hr />
+
+    <form method="post">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Number)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.EditorFor(model => model.Number)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.NumberNepali)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NumberNepali)
+            </dd>
+            <dd class="col-sm-10">
+                <button type="submit">Submit</button>
+            </dd>
+        </dl>
+
+    </form>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
