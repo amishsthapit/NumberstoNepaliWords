@@ -7,7 +7,7 @@ namespace NumberstoNepaliWords.Models
 {
     public class ConversionModel
     {
-        public float Number { get; set; }
+        public double Number { get; set; }
         public string NumberNepali { get; set; }
     }
 }

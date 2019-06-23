@@ -3,36 +3,48 @@ using System.Collections.Generic;
 
 namespace NumbertoNepaliWord
 {
-    public class Class1
+    public class Conversion
     {
 
-        public static string NepaliConversion(float num)
+        public static string NepaliConversion(double num)
+        {
+            
+            string numberstr = num.ToString();            
+            var numobj =  numberstr.Split('.');            
+            return wordconversion(numobj[0]); 
+        }
+
+        private static string wordconversion(string word)
         {
             string numnepali = null;
-            //string numberstr = num.ToString();
-            string numberstr = string.Format("{0:N2}", num);
-            var numobj =  numberstr.Split('.');
-            int i = numobj[0].Length - 1;
-            while(i>2)
+            int i = word.Length - 1;
+            char[] chars = word.ToCharArray();
+            Array.Reverse(chars);
+            while (i > 2)
             {
                 string convtext = null;
                 if (i % 2 == 0)
                 {
-                    convtext = numobj[0].Substring(i) + numobj[0].Substring(i - 1);
+                    convtext = chars[i].ToString() + chars[i - 1].ToString();
+                    if (int.Parse(convtext) != 0)
+                    {
+                        numnepali = numnepali + stepconversion(int.Parse(convtext), i) + " ";
+                    }
+
                     i = i - 2;
                 }
                 else
                 {
-                    convtext = numobj[0].Substring(i);
+                    convtext = chars[i].ToString();
+                    if (int.Parse(convtext) != 0)
+                    {
+                        numnepali = numnepali + stepconversion(int.Parse(convtext), i) + " ";
+                    }
                     i = i - 1;
                 }
-                numnepali = numnepali + stepconversion(int.Parse(convtext), i);
             }
-            
-            return numnepali; 
+            return numnepali + " " + hundredconversion(chars[2].ToString() + chars[1].ToString() + chars[0].ToString());
         }
-
-
         private static string stepconversion(int num, int level)
         {
             string numwords;
@@ -43,8 +55,29 @@ namespace NumbertoNepaliWord
             return (numwords +" "+ levelwords);
         }
 
+        private static string hundredconversion(string num)
+        {
+            string numwords;
+            if(int.Parse(num.Substring(1, 2)) != 0)
+            {
+                NepaliWordDictionary.TryGetValue(int.Parse(num.Substring(1, 2)), out numwords);
+                if (int.Parse(num.Substring(0, 1)) != 0)
+                {
+                    return stepconversion(int.Parse(num.Substring(0, 1)), 2) + " " + numwords;
+                }
+                return numwords;
+            }
+            if (int.Parse(num.Substring(0, 1)) != 0)
+            {
+                return stepconversion(int.Parse(num.Substring(0, 1)), 2);
+            }
+            return null;
+        }
+
+
         private static IDictionary<int, string> NepaliLevelWordDictionary = new Dictionary<int, string>
         {
+            {2,"सय"},            
             {3,"हजार"},
             {4,"हजार"},
             {5,"लाख"},
@@ -157,8 +190,7 @@ namespace NumbertoNepaliWord
             {96,"छयान्नब्बे"},
             {97,"सन्तान्नब्बे"},
             {98,"अन्ठान्नब्बे"},
-            {99,"उनान्सय"},
-            {100,"एक सय"}
+            {99,"उनान्सय"}            
         };
 
         
