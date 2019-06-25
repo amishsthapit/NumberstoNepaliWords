@@ -9,14 +9,22 @@ namespace NumbertoNepaliWord
         public static string NepaliConversion(double num)
         {
             
-            string numberstr = num.ToString();            
+            string numberstr = num.ToString("0.##");
+            string nepalinum = null;
             var numobj =  numberstr.Split('.');            
-            return wordconversion(numobj[0]); 
+            foreach(string number in numobj)
+            {
+                nepalinum = nepalinum + wordconversion(number);
+
+            }
+            //"र"
+            return nepalinum; 
         }
 
         private static string wordconversion(string word)
         {
             string numnepali = null;
+            string hundreds = null;
             int i = word.Length - 1;
             char[] chars = word.ToCharArray();
             Array.Reverse(chars);
@@ -43,7 +51,13 @@ namespace NumbertoNepaliWord
                     i = i - 1;
                 }
             }
-            return numnepali + " " + hundredconversion(chars[2].ToString() + chars[1].ToString() + chars[0].ToString());
+            foreach(char x in chars)
+            {
+                hundreds = x + hundreds;
+            }
+
+
+            return numnepali + " " + hundredconversion(hundreds);
         }
         private static string stepconversion(int num, int level)
         {
